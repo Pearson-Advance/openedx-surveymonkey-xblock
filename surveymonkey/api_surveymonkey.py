@@ -36,14 +36,14 @@ class ApiSurveyMonkey(object):
         This method return a dict with the authorization token
         """
         client = BackendApplicationClient(client_id=client_id)
-        oauth = OAuth2Session(client=client)
+        oauth = OAuth2Session(client_id=client_id, client=client)
         authenticate_url = "{}/{}".format(API_BASE, "oauth/token")
         headers = {}
 
         token = oauth.fetch_token(
             token_url=authenticate_url,
-            client_id=client_id,
-            client_secret=client_secret
+            client_secret=client_secret,
+            include_client_id=True,
         )
 
         headers["Authorization"] = "{} {}".format("Bearer", token.get("access_token"))

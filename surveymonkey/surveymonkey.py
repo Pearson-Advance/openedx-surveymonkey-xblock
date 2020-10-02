@@ -9,8 +9,8 @@ from branding import api as branding_api
 from courseware.courses import get_course_by_id
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from microsite_configuration import microsite
 from oauthlib.oauth2 import InvalidClientError, InvalidClientIdError
+from openedx.core.djangoapps.site_configuration.models import SiteConfiguration
 from submissions import api as submissions_api
 from web_fragments.fragment import Fragment
 from webob.response import Response
@@ -248,7 +248,7 @@ class SurveyMonkeyXBlock(XBlock, StudioEditableXBlockMixin):
         return frag
 
     def get_handler_url(self, handler_name):
-        base = microsite.get_value_for_org(
+        base = SiteConfiguration.get_value_for_org(
             self.course_id.org,
             "LMS_ROOT_URL",
             settings.LMS_ROOT_URL,
@@ -373,9 +373,9 @@ class SurveyMonkeyXBlock(XBlock, StudioEditableXBlockMixin):
                 last_submission = submissions[0]
         except Exception:
             LOG.info(
-                "Error getting submissions for the survey %s related to course %s",
+                "Error getting submissions for the survey [%s] related to course: [%s]",
                 self.survey_name,
-                self.course_id.to_deprecated_string(),
+                self.course_id.html_id(),
             )
 
         return completion, last_submission
@@ -384,7 +384,7 @@ class SurveyMonkeyXBlock(XBlock, StudioEditableXBlockMixin):
     def student_item(self):
         item = dict(
             student_id=self.runtime.anonymous_student_id,
-            course_id=self.course_id.to_deprecated_string(),
+            course_id=self.course_id.html_id(),
             item_id=self.location.block_id,
             item_type="surveymonkey",
         )
@@ -446,7 +446,7 @@ class SurveyMonkeyXBlock(XBlock, StudioEditableXBlockMixin):
             LOG.info(
                 "Error creating a submission for the survey %s related to course %s",
                 self.survey_name,
-                self.course_id.to_deprecated_string(),
+                self.course_id.html_id(),
             )
 
         course = get_course_by_id(self.course_id)
