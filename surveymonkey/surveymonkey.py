@@ -6,9 +6,9 @@ import logging
 import pkg_resources
 
 from branding import api as branding_api
-from courseware.courses import get_course_by_id
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from lms.djangoapps.courseware.courses import get_course_by_id
 from oauthlib.oauth2 import InvalidClientError, InvalidClientIdError
 from openedx.core.djangoapps.site_configuration.models import SiteConfiguration
 from submissions import api as submissions_api
