@@ -1,3 +1,7 @@
+# 🚨 IMPORTANT NOTE 🚨
+
+This repository has been deprecated. No active development or maintenance efforts will be made on this repository. Use it at your own risk.
+
 # Xblock Openedx-Surveymonkey
 
 The Openedx-Surveymonkey Xblock allows to embed a survey link inside a unit, also, allows to include the survey description and title. The xblock allows you to include the user anonymous id as a custom variable,  that is a logic feature that allows you to track data about respondents by passing one or more values through a survey link and into your survey results.
